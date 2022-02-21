@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import Swal from "sweetalert2";
 
 const AddUser = () => {
   const nameRef = useRef();
@@ -10,7 +11,7 @@ const AddUser = () => {
     const email = emailRef.current.value;
     const phone = phoneRef.current.value;
     const newUser = { name, email, phone };
-    // console.log(newUser);
+    console.log(newUser);
     fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
@@ -21,8 +22,10 @@ const AddUser = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.insertedId) {
-          alert("Successfully added the user.");
+          Swal.fire("Good job!", "User added to database!", "success");
           e.target.reset();
+        } else {
+          Swal.fire("Oops!", "Something went wrong!", "error");
         }
       });
     e.preventDefault();
@@ -37,6 +40,7 @@ const AddUser = () => {
           ref={nameRef}
           placeholder="Enter your name"
           autoComplete="on"
+          required
           id=""
         />
         <input
@@ -45,6 +49,7 @@ const AddUser = () => {
           ref={emailRef}
           placeholder="Enter your email"
           autoComplete="on"
+          required
           id=""
         />
         <input
@@ -52,6 +57,7 @@ const AddUser = () => {
           name=""
           ref={phoneRef}
           placeholder="Enter your number"
+          required
           autoComplete="on"
           id=""
         />
