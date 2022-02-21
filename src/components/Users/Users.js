@@ -39,11 +39,12 @@ const Users = () => {
               padding: "10px",
               borderRadius: "10px",
             }}
+            className="mt-1"
           >
-            <p>Name:{user.name}</p>
+            <p>Name: {user.name}</p>
             <p>Email: {user.email}</p>
             <p>Phone: {user.phone}</p>
-            <Link  to={`/users/update/${user._id}`}>
+            <Link to={`/users/update/${user._id}`}>
               <Button variant="success">Update</Button>
             </Link>
             <button
