@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -11,55 +12,42 @@ const Users = () => {
       .then((data) => setUsers(data));
   }, []);
   const handleDeleteUser = (id) => {
-    fetch(`http://localhost:5000/users/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => setUsers(data));
+    const proceed = window.confirm("Are you sure, you want to delete?");
+    if (proceed) {
+      fetch(`http://localhost:5000/users/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.deletedCount > 0) {
+            Swal.fire("Oops!", "User has been deleted", "warning");
+            const remainingUsers = users.filter((user) => user._id !== id);
+            setUsers(remainingUsers);
+          }
+        });
+    }
   };
   return (
     <div>
       <h2>Users Available: {users.length} </h2>
-      <div
-        style={{
-          width: "400px",
-        }}
-      >
+      <div>
         {users.map((user) => (
           <div
             key={user._id}
             style={{
               background: "#f4f4f4",
               padding: "10px",
-              margin: "10px",
               borderRadius: "10px",
             }}
           >
-            <p>
-              {user.name} :: {user.email}
-            </p>
-            <Link to={`/users/update/${user._id}`}>
-              <button
-                style={{
-                  padding: "5px 15px",
-                  outline: "none",
-                  border: "none",
-                  borderRadius: "5px",
-                  background: "lightgreen",
-                  margin: "5px",
-                }}
-              >
-                Update
-              </button>
+            <p>Name:{user.name}</p>
+            <p>Email: {user.email}</p>
+            <p>Phone: {user.phone}</p>
+            <Link  to={`/users/update/${user._id}`}>
+              <Button variant="success">Update</Button>
             </Link>
             <button
-              style={{
-                padding: "5px 15px",
-                outline: "none",
-                border: "none",
-                borderRadius: "5px",
-                background: "#ff5200",
-              }}
+              className="btn btn-danger"
               onClick={() => handleDeleteUser(user._id)}
             >
               X
