@@ -11,7 +11,7 @@ const UpdateUser = () => {
     );
   }, [id]);
   return (
-    <div>
+    <div className="p-5 bg-dark text-white mt-5 rounded">
       <p>This is Update User of ID: {id} </p>
       <p>Name: {user.name}</p>
       <p>Email: {user.email}</p>
