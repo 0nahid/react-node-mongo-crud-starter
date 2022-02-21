@@ -36,10 +36,9 @@ const Users = () => {
             key={user._id}
             style={{
               background: "#f4f4f4",
-              padding: "10px",
               borderRadius: "10px",
             }}
-            className="mt-1"
+            className="mt-1 p-3"
           >
             <p>Name: {user.name}</p>
             <p>Email: {user.email}</p>
